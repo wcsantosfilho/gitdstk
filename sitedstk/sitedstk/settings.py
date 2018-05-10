@@ -11,23 +11,24 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import dj_database_url
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'oh3#+-4yy0y7rf^rab)r5*)pkf^4akfco6@*kkzw*9^nkn-^nh'
+#SECRET_KEY = 'oh3#+-4yy0y7rf^rab)r5*)pkf^4akfco6@*kkzw*9^nkn-^nh'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'oh3#+-4yy0y7rf^rab)r5*)pkf^4akfco6@*kkzw*9^nkn-^nh')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+#DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 
 # Application definition
@@ -80,11 +81,6 @@ WSGI_APPLICATION = 'sitedstk.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_265c0bb2b0834d6',
-        'USER': 'b804b84c3d2ae1',
-        'PASSWORD': 'ce4447e1',
-        'HOST': 'us-cdbr-iron-east-04.cleardb.net',
-        'PORT': '3306',
     }
 }
 
@@ -123,8 +119,34 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static'),
+]
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# Allow all host  host/domains names for this site
+ALLOWED_HOSTS = ['*']
+
+# Parse database configurations from $DATABASE_URL
+import dj_database_url
+
+DATABASES = { 'default' : dj_database_url.config()}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# try to load local_settings.py if it exists
+try:
+  from .local_settings import *
+except Exception as e:
+  raise
