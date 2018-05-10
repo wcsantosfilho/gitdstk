@@ -1,1 +1,1 @@
-web: gunicorn gitdstk.wsgi --logfile -
+web: gunicorn gitdstk.wsgi
