@@ -1,0 +1,26 @@
+{% load bootstrap4 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block title %}django-bootstrap4{% endblock %}
+
+{% block bootstrap4_content %}
+    <div class="container">
+        {% if search_ling %}
+            <ul>
+            {% for linguagem in search_ling %}
+                <li><a href="/linguagem/{{ linguagem.id }}/">{{ linguagem.linguagem_nome }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Não há linguagens cadastradas.</p>
+        {% endif %}
+    </div>
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Aperte aqui!</button>
+    {% endbuttons %}
+{% endblock %}
