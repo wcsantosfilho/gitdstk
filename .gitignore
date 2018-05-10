@@ -108,5 +108,3 @@ venv.bak/
 # específicas do projeto
 Scripts/*
 
-# db settings
-sitedstk/sitedstk/settings.py
