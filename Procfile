@@ -1,1 +1,1 @@
-web: gunicorn gitdstk.wsgi
+web: gunicorn sitedstk.wsgi
