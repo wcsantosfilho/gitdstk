@@ -6,21 +6,26 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
-{% block title %}django-bootstrap4{% endblock %}
+{% block title %}Busca Destaques do GitHub{% endblock %}
 
 {% block bootstrap4_content %}
     <div class="container">
-        {% if search_ling %}
+        {% if lista_buscas %}
             <ul>
-            {% for linguagem in search_ling %}
-                <li><a href="/linguagem/{{ linguagem.id }}/">{{ linguagem.linguagem_nome }}</a></li>
+            {% for registro in lista_buscas %}
+                <li>{{ registro.data_busca }} - <a href="{% url 'srchdstk:detalheLing' registro.linguagem.id %}">{{ registro.linguagem.linguagem_nome }}</a></li>
             {% endfor %}
             </ul>
         {% else %}
             <p>Não há linguagens cadastradas.</p>
         {% endif %}
     </div>
-    {% buttons %}
-        <button type="submit" class="btn btn-primary">Aperte aqui!</button>
-    {% endbuttons %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form >
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" value="buscaRepos" class="btn btn-primary">Aperte aqui!</button>
+        {% endbuttons %}
+    </form>
 {% endblock %}

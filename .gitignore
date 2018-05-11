@@ -108,3 +108,4 @@ venv.bak/
 # específicas do projeto
 Scripts/*
 local_settings.py
+sitedstk/srchdstk/migrations/*

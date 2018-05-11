@@ -1,0 +1,11 @@
+<h1>Xaxaxa</h1>
+<ul>
+{% for key, value in dict_repos.items %}
+    <li>{{ key }} {{ value }} </li>
+    <ul>
+    {% for key2,value2 in value.items %}
+        <li>{{ key2 }} {{ value2 }}</li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+</ul>
