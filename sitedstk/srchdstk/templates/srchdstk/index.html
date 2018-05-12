@@ -10,15 +10,16 @@
 
 {% block bootstrap4_content %}
     <div class="container">
-        {% if lista_buscas %}
-            <ul>
-            {% for registro in lista_buscas %}
-                <li>{{ registro.data_busca }} - <a href="{% url 'srchdstk:detalheLing' registro.linguagem.id %}">{{ registro.linguagem.linguagem_nome }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>Não há linguagens cadastradas.</p>
-        {% endif %}
+        <h1>Últimas pesquisas por Linguagem:</h1>
+        {% for y1 in lista_repos %}
+            {% ifchanged y1.linguagem.linguagem_nome %}
+                <h2><a href="{% url 'srchdstk:detalheLing' y1.linguagem.id %}">{{ y1.linguagem.linguagem_nome }}</a></h2>
+            {% endifchanged %}
+            {% ifchanged y1.busca.id %}
+                <h3><a href="{% url 'srchdstk:detalheBusca' y1.busca.id %}">{{ y1.busca.data_busca }}</a></h3>
+            {% endifchanged %}
+            <h4>{{ y1.id }} - {{ y1.repo_url }}</h4>
+        {% endfor %}
     </div>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 

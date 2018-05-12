@@ -1,10 +1,15 @@
 <h1>Xaxaxa</h1>
 <ul>
-{% for key, value in dict_repos.items %}
-    <li>{{ key }} {{ value }} </li>
+{% for key, value in dict_repo1.items %}
+    <li>{{ key }} </li>
     <ul>
     {% for key2,value2 in value.items %}
-        <li>{{ key2 }} {{ value2 }}</li>
+        <li>{{ key2 }} </li>
+        <ul>
+            {% for key3,value3 in value2.items %}
+            <li>{{ key3 }} {{ value3 }}</li>
+            {% endfor %}
+        </ul>
     {% endfor %}
     </ul>
 {% endfor %}

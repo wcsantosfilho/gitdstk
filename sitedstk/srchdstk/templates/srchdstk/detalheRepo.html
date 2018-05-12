@@ -1,0 +1,14 @@
+<h1>Repósitorio destaque da linguagem: {{ repo.linguagem.linguagem_nome }} em: {{ repo.busca.data_busca }}</h1>
+<table>
+    <tr>
+        <th>Item</th><th>Conteudo</th>
+    </tr>
+    <tr><th>ID</th><td>{{ repo.repo_id }}</td></tr>
+    <tr><th>Name</th><td>{{ repo.repo_name }}</td></tr>
+    <tr><th>Full_name</th><td>{{ repo.repo_full_name }}</td></tr>
+    <tr><th>URL</th><td><a target="_blank" href={{ repo.repo_url }}>{{ repo.repo_url }}</a></td></tr>
+    <tr><th>Description</th><td>{{ repo.repo_description }}</td></tr>
+    <tr><th>Language</th><td>{{ repo.repo_language }}</td></tr>
+    <tr><th>Stars</th><td>{{ repo.repo_stargazers_count }}</td></tr>
+
+</table>

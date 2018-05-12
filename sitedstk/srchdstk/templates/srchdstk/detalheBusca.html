@@ -1,0 +1,6 @@
+<h1>{{ busca.data_busca }}</h1>
+<ul>
+{% for repos in lista_repositorios_busca %}
+    <li><a href="{% url 'srchdstk:detalheRepo' repos.id %}">{{ repos.repo_id }}</a> - {{ repos.repo_name }} - <a target="_blank" href="{{ repos.repo_url }}">{{ repos.repo_url }}</a></li>
+{% endfor %}
+</ul>
