@@ -1,0 +1,15 @@
+/* styles.css */
+
+/* Define o espaÃ§o para a barra de navegaÃ§Ã£o no topo */
+body {
+  min-height: 75rem;
+  padding-top: 0.5rem;
+}
+
+h1 a {
+    color: #FCFF05;
+}
+
+h1 {
+    color: #FC0105;
+}

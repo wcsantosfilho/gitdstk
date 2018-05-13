@@ -4,8 +4,7 @@
 
 # TODO
 # 1) Testes automatizados
-# 2) Layout padrão de telas
-# 2.1) CSS
-# 3) Navegação (menu superior?)
+# 2) Formato de data
+# 3) Formato de número para Stars
 # 4) Formulário para Search
 # 5) About

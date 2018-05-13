@@ -1,6 +1,36 @@
-<h1>{{ busca.data_busca }}</h1>
-<ul>
-{% for repos in lista_repositorios_busca %}
-    <li><a href="{% url 'srchdstk:detalheRepo' repos.id %}">{{ repos.repo_id }}</a> - {{ repos.repo_name }} - <a target="_blank" href="{{ repos.repo_url }}">{{ repos.repo_url }}</a></li>
-{% endfor %}
-</ul>
+{% extends './base.html' %}
+
+{% block content %}
+    <br>
+    <div class="card">
+        <h5 class="card-header">
+            Repositórios da linguagem <a href="{% url 'srchdstk:detalheLing' busca.linguagem.id %}">{{ busca.linguagem.linguagem_nome }}</a> encontrados na busca de: <a href="{% url 'srchdstk:detalheBusca' busca.id %}">{{ busca.data_busca }}</a>
+        </h5>
+    </div>
+    <hr>
+
+    <ul>
+    {% if lista_repositorios_busca %}
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th scope="col">ID</th>
+                <th scope="col">Nome Repositório</th>
+                <th scope="col">URL</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for repos in lista_repositorios_busca %}
+            <tr>
+                <td><a href="{% url 'srchdstk:detalheRepo' repos.id %}">{{ repos.repo_id }}</a></td>
+                <td>{{ repos.repo_name }}</td>
+                <td><a target="_blank" href="{{ repos.repo_url }}">{{ repos.repo_url }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <h6>Não há repositórios!</h6>
+    {% endif %}
+
+{% endblock %}

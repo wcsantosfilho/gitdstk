@@ -1,16 +1,50 @@
-<h1>Xaxaxa</h1>
-<ul>
-{% for key, value in dict_repo1.items %}
-    <li>{{ key }} </li>
-    <ul>
-    {% for key2,value2 in value.items %}
-        <li>{{ key2 }} </li>
-        <ul>
-            {% for key3,value3 in value2.items %}
-            <li>{{ key3 }} {{ value3 }}</li>
+{% extends './base.html' %}
+
+{% block content %}
+    <br>
+    <div class="card">
+        <h5 class="card-header">
+            Repositórios Encontrados com base na Popularidade (Stars!)
+        </h5>
+    </div>
+    <hr>
+
+    {% if dict_repo1 %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Conteúdo</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for key, value in dict_repo1.items %}
+                <tr class="table-active">
+                    <th scope="row">Linguagem:</th>
+                    <td>
+                    {{ key }}
+                    </td>
+                </tr>
+                {% for key2,value2 in value.items %}
+                    <tr class="table-info">
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                    {% for key3,value3 in value2.items %}
+                        <tr>
+                            <td>{{ key3 }}</td>
+                            <td>{{ value3 }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
             {% endfor %}
-        </ul>
-    {% endfor %}
-    </ul>
-{% endfor %}
-</ul>
+            </tbody>
+    </table>
+    {% else %}
+        <h6>Não há buscas realizadas!</h6>
+    {% endif %}
+<a href="{% url 'srchdstk:index' %}" class="btn btn-info" role="button">Volta para Home!</a>
+
+{% endblock %}
+

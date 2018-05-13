@@ -1,6 +1,16 @@
-<h1>{{ linguagem.linguagem_nome }}</h1>
-<ul>
-{% for busca in lista_linguagem_busca %}
-    <li>{{ busca.data_busca }}</li>
-{% endfor %}
-</ul>
+{% extends './base.html' %}
+
+{% block content %}
+    <br>
+    <div class="card">
+        <h5 class="card-header">
+            Buscas da Linguagem: {{ linguagem.linguagem_nome }}
+        </h5>
+        <ul class="list-group list-group-flush">
+            {% for busca in lista_linguagem_busca %}
+                <li class="list-group-item"><a href="{% url 'srchdstk:detalheBusca' busca.id %}">{{ busca.data_busca }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
