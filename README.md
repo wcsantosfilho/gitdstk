@@ -4,7 +4,8 @@
 
 # TODO
 # 1) Testes automatizados
-# 2) Formato de data
-# 3) Formato de número para Stars
+# 2) Colocar buscaRepos no MODEL
 # 4) Formulário para Search
-# 5) About
+# 5) Home na Home
+# 6) static files
+# 7) 404 padrão
