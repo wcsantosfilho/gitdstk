@@ -13,3 +13,8 @@ h1 a {
 h1 {
     color: #FC0105;
 }
+
+p.explica1 {
+    color: #A1A1A1;
+    font-size: 0.95rem;
+}

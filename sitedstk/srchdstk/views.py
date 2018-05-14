@@ -11,8 +11,6 @@ import re
 from .models import Linguagem, Busca, Repositorio
 
 def index(request):
-    # monta lista com ID das linguagens
-    lista_linguagens = Linguagem.objects.all()
     # lista buscas feitas com aquela linguagem (JOIN)
     try:
         lista_buscas = Busca.objects.annotate(max_date=Max('linguagem__busca__data_busca')).filter(data_busca=F('max_date'))
@@ -23,7 +21,6 @@ def index(request):
         lista_repos = null
     # define contexto para passar para o template
     context = {
-        'lista_buscas': lista_buscas,
         'lista_repos': lista_repos
     }
     # render (request, template, query das linguagens)

@@ -1,50 +1,58 @@
 {% extends './base.html' %}
-
+{% load humanize %}
 {% block content %}
-    <br>
-    <div class="card">
-        <h5 class="card-header">
-            Resultados recentes:
-        </h5>
-    </div>
-    <hr>
+    <div class="row">
+        <div class="col-10">
+            <br>
+            <div class="card">
+                <h5 class="card-header">
+                    Resultados recentes:
+                </h5>
+            </div>
+            <hr>
 
-    {% if lista_repos %}
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome Repositório</th>
-                <th scope="col">Stars</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for y1 in lista_repos %}
-            {% ifchanged y1.linguagem.linguagem_nome %}
-                <tr class="table-active">
-                    <th scope="row">Linguagem</th>
-                    <td colspan="2">
-                    <a href="{% url 'srchdstk:detalheLing' y1.linguagem.id %}">{{ y1.linguagem.linguagem_nome }}</a>
-                    </td>
-                </tr>
-            {% endifchanged %}
-            {% ifchanged y1.busca.id %} 
-                <tr>
-                    <th scope="row">Busca Realizada:</th>
-                    <td colspan="2">
-                    <a href="{% url 'srchdstk:detalheBusca' y1.busca.id %}">{{ y1.busca.data_busca }}</a>
-                    </td>
-                </tr>
-            {% endifchanged %}
-                <tr>
-                    <td><a href="{% url 'srchdstk:detalheRepo' y1.id %}">{{ y1.repo_name }}</a></td>
-                    <td>{{ y1.repo_full_name }}</td>
-                    <td>{{ y1.repo_stargazers_count }}</td>
-                </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        <h6>Não há buscas realizadas!</h6>
-    {% endif %}
+            {% if lista_repos %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome Repositório</th>
+                        <th scope="col">Stars</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for y1 in lista_repos %}
+                    {% ifchanged y1.linguagem.linguagem_nome %}
+                        <tr class="table-active">
+                            <th scope="row">Linguagem</th>
+                            <td colspan="2">
+                            <a href="{% url 'srchdstk:detalheLing' y1.linguagem.id %}">{{ y1.linguagem.linguagem_nome }}</a>
+                            </td>
+                        </tr>
+                    {% endifchanged %}
+                    {% ifchanged y1.busca.id %} 
+                        <tr>
+                            <th scope="row">Busca Realizada:</th>
+                            <td colspan="2">
+                            <a href="{% url 'srchdstk:detalheBusca' y1.busca.id %}">{{ y1.busca.data_busca }}</a>
+                            </td>
+                        </tr>
+                    {% endifchanged %}
+                        <tr>
+                            <td><a href="{% url 'srchdstk:detalheRepo' y1.id %}">{{ y1.repo_name }}</a></td>
+                            <td>{{ y1.repo_full_name }}</td>
+                            <td>{{ y1.repo_stargazers_count|floatformat:0|intcomma }}</td>
+                        </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <h6>Não há buscas realizadas!</h6>
+            {% endif %}
+        </div>
+        <div class="col-2">
+            <br>
+            <a href="{% url 'srchdstk:buscaRepos' %}" class="btn btn-info" role="button">Clique aqui para executar uma nova busca!</a>
+        </div>
+    </div>
 {% endblock %}
