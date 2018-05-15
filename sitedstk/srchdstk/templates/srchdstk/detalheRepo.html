@@ -1,5 +1,5 @@
 {% extends './base.html' %}
-
+{% load humanize %}
 {% block content %}
     <br>
     <div class="card">
@@ -22,7 +22,7 @@
             <tr><th>URL</th><td><a target="_blank" href={{ repo.repo_url }}>{{ repo.repo_url }}</a></td></tr>
             <tr><th>Description</th><td>{{ repo.repo_description }}</td></tr>
             <tr><th>Language</th><td>{{ repo.repo_language }}</td></tr>
-            <tr><th>Stars</th><td>{{ repo.repo_stargazers_count }}</td></tr>
+            <tr><th>Stars</th><td>{{ repo.repo_stargazers_count|floatformat:0|intcomma }}</td></tr>
         </tbody>
 
     </table>

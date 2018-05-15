@@ -9,4 +9,8 @@ urlpatterns = [
     path('detalheBusca/<int:busca_id>/', views.detalheBusca, name='detalheBusca'),
     path('detalheRepo/<int:repo_id>/', views.detalheRepo, name='detalheRepo'),
     path('buscaRepos/', views.buscaRepos, name='buscaRepos'),
+    path('linguagem/', views.LinguagemList.as_view(), name='linguagem-list'),
+    path('linguagem/<int:pk>/', views.LinguagemDetail.as_view(), name='linguagem-detail'),
+    path('linguagem/add/', views.LinguagemCreate.as_view(), name='linguagem-add'),
+    path('linguagem/<int:pk>/delete/', views.LinguagemDelete.as_view(), name='linguagem-delete'),
 ]

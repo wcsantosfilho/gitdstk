@@ -1,0 +1,21 @@
+{% extends './base.html' %}
+{% load humanize %}
+{% block content %}
+
+    <br>
+    <div class="card">
+        <h5 class="card-header">
+            Nova Linguagem
+        </h5>
+    </div>
+    <hr>
+
+    <div>
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-primary" value="Salvar" />
+            <a href="{% url 'srchdstk:linguagem-list' %}" class="btn btn-secondary" role="button">Cancelar</a>
+        </form>
+    </div>
+
+{% endblock %}

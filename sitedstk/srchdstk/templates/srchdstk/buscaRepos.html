@@ -8,43 +8,29 @@
         </h5>
     </div>
     <hr>
-
     {% if dict_repo1 %}
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Conteúdo</th>
+                <th scope="col">Linguagem</th>
+                <th scope="col">Qtde de Repositórios</th>
             </tr>
         </thead>
         <tbody>
-
-            {% for key, value in dict_repo1.items %}
+            {% for linguagem, contagem in dict_repo1.items %}
                 <tr class="table-active">
-                    <th scope="row">Linguagem:</th>
-                    <td>
-                    {{ key }}
-                    </td>
+                    <td>{{ linguagem }}</td>
+                    <td>{{ contagem }}</td>
                 </tr>
-                {% for key2,value2 in value.items %}
-                    <tr class="table-info">
-                        <td> </td>
-                        <td> </td>
-                    </tr>
-                    {% for key3,value3 in value2.items %}
-                        <tr>
-                            <td>{{ key3 }}</td>
-                            <td>{{ value3 }}</td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
             {% endfor %}
-            </tbody>
+        </tbody>
     </table>
     {% else %}
-        <h6>Não há buscas realizadas!</h6>
+        <h6>Busca não retornou resultados!</h6>
     {% endif %}
-<a href="{% url 'srchdstk:index' %}" class="btn btn-info" role="button">Volta para Home!</a>
+
+
+<a href="{% url 'srchdstk:index' %}" class="btn btn-info" role="button">Volte para Home e veja os detalhes!</a>
 
 {% endblock %}
 

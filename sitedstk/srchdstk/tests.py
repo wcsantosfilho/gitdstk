@@ -1,6 +1,8 @@
-from django.test import TestCase
-from .models import Linguagem
+import unittest
+from django.test import TestCase, Client
 from django.urls import reverse
+
+from .models import Linguagem, Busca, Repositorio
 
 def create_linguagem(linguagem_nome):
     """
@@ -10,7 +12,7 @@ def create_linguagem(linguagem_nome):
     """
     return Linguagem.objects.create(linguagem_nome=linguagem_nome)
 
-
+        
 class SiteIndexTests(TestCase):
     def test_sem_linguagem(self):
         """
@@ -30,3 +32,24 @@ class SiteIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Não há buscas realizadas!")
         self.assertQuerysetEqual(response.context['lista_repos'], [])
+
+class RepositoriosTests(TestCase):
+    def test_busca_repositorios_sem_linguagens(self):
+        """
+        Busca repositórios, mas não tem linguagens cadastradas
+        """
+        #create_linguagem(linguagem_nome="Java")
+        response = self.client.get(reverse('srchdstk:buscaRepos'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Busca não retornou resultados!")
+        
+    def test_busca_repositorios_com_linguagem(self):
+        """
+        Busca repositórios, com uma linguagem cadastrada
+        """
+        create_linguagem(linguagem_nome="Java")
+        response = self.client.get(reverse('srchdstk:buscaRepos'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Qtde de Repositórios")
+        
+        

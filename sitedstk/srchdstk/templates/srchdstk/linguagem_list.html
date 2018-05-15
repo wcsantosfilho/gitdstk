@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+{% load humanize %}
+{% block content %}
+    <br>
+    <div class="card">
+        <h5 class="card-header">
+            Linguagens
+        </h5>
+    </div>
+    <br>
+    <a href="{% url 'srchdstk:linguagem-add' %}" class="btn btn-info" role="button">+ Nova linguagem</a>
+    <br>
+
+    <hr>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th>Linguagem</th>
+                <th><div class="text-right">Ação</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ling in linguagem_list %}
+                <tr>
+                    <td><a href="{% url 'srchdstk:linguagem-detail' pk=ling.id %}">{{ ling.linguagem_nome }}</a></td>
+                    <td><div class="text-right"><a href="{% url 'srchdstk:linguagem-delete' pk=ling.id %}">Excluir</a></div></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

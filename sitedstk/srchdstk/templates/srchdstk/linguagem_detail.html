@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+{% load humanize %}
+{% block content %}
+
+    <br>
+    <div class="card">
+        <h5 class="card-header">
+            Linguagem
+        </h5>
+    </div>
+    <hr>
+
+    <div>
+        {{ linguagem }}
+    </div>
+    <a href="{% url 'srchdstk:linguagem-list' %}" class="btn btn-secondary" role="button">Voltar para lista</a>
+
+{% endblock %}

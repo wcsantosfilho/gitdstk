@@ -1,13 +1,11 @@
 from django.shortcuts import get_object_or_404, render
-from django.utils import timezone
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Max, Count, F
 from django.contrib import messages
-import requests
-import json
-import re
+from django.views import generic
 
+from .forms import LinguagemForm
 from .models import Linguagem, Busca, Repositorio
 
 def index(request):
@@ -71,65 +69,29 @@ def detalheRepo(request, repo_id):
     
 
 def buscaRepos(request):
+    repositorio = Repositorio()
     # Ambiente para response
-    context = {}
-
-    # Monta lista com todas as linguagens da tabela
-    lista_ling = Linguagem.objects.all()
-    
-    # Salva a DataHora da Busca
-    dataHoraBusca = timezone.now()
-    
-    # Apenas teste!!
-    dict_repo1 = dict()
-    
-    # Loop para chamar o API do GIt para cada uma das Linguagens
-    for ling in lista_ling:
-        busca = Busca(linguagem=ling, data_busca=dataHoraBusca)
-        busca.save()
-        urlGit = "https://api.github.com/search/repositories?q=language:" + ling.linguagem_nome + "&sort=stars&order=desc"
-        headerGit = {'Accept': 'application/vnd.github.mercy-preview+json'}
-        try:
-            gitResposta = requests.get(urlGit,headers=headerGit)
-
-            #Testa sucesso da resposta
-            if (gitResposta.ok):
-                # Carrega conteudo JSON
-                jsonGit = json.loads(gitResposta.content)
-                
-                # Verifica a qtde de itens da resposta
-                itensGit = int(jsonGit['total_count'])
-                if (itensGit > 0):
-                    count = 0
-                    dict_repo2 = dict()
-                    for key in range(0, itensGit):
-                        # adiciona algumas keys ao dict da linguagem
-                        dict_repo3 = dict()
-                        dict_repo3['id'] = jsonGit['items'][key]['id']
-                        dict_repo3['name'] = jsonGit['items'][key]['name']
-                        dict_repo3['full_name'] = jsonGit['items'][key]['full_name']
-                        dict_repo3['url'] = jsonGit['items'][key]['url']
-                        dict_repo3['description'] = jsonGit['items'][key]['description']
-                        dict_repo3['language'] = jsonGit['items'][key]['language']
-                        dict_repo3['score'] = jsonGit['items'][key]['score']
-                        dict_repo3['stargazers_count'] = jsonGit['items'][key]['stargazers_count']
-                        dict_repo2[key] = dict_repo3
-                        temp_description = re.sub(r'[^\x00-\x7F]+',' ',jsonGit['items'][key]['description'])
-                        repo = Repositorio(linguagem=ling, busca=busca, repo_id = jsonGit['items'][key]['id'], repo_name = jsonGit['items'][key]['name'], repo_full_name = jsonGit['items'][key]['full_name'], repo_url = jsonGit['items'][key]['html_url'], repo_description = temp_description , repo_language = jsonGit['items'][key]['language'], repo_score = jsonGit['items'][key]['score'], repo_stargazers_count = jsonGit['items'][key]['stargazers_count'] )
-                        repo.save()
-                        count = count + 1
-                        if (count > 5):
-                            break
-                    # adiciona ao dict dos repositórios
-                    dict_repo1[ling] = dict_repo2
-                
-                # Monta contexto para passar para o template
-                context = { 
-                    'dict_repo1': dict_repo1
-                }
-            else:
-                gitResposta.raise_for_status()
-        except requests.exceptions.RequestException as e:
-            print (e)
+    context = repositorio.busca_repos_no_git()
     return render(request, 'srchdstk/buscaRepos.html', context)
 
+class LinguagemDetail(generic.DetailView):
+    model = Linguagem
+    context_objects_name = 'linguagem'
+    
+    #def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        #context = super(LinguagemDetail, self).get_context_data(**kwargs)
+        #return context
+    
+class LinguagemList(generic.ListView):
+    model = Linguagem
+    def get_queryset(self):
+        return Linguagem.objects.all()
+    
+class LinguagemCreate(generic.edit.CreateView):
+    model = Linguagem
+    form_class = LinguagemForm
+
+class LinguagemDelete(generic.edit.DeleteView):
+    model = Linguagem
+    success_url = reverse_lazy('srchdstk:linguagem-list')    
